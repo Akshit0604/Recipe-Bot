@@ -7,24 +7,23 @@
     <link href="preconnect" href="https://fonts.googleapis.com">
     <link href="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link
-        href="https://fonts.googleapis.com/css2?family=Playfair+Display+SC:wght@700&family-Poppins:wght@490;700&display=swap"
+        href="https://fonts.googleapis.com/css2?family=Playfair+Display+SC:wght@700&family=Poppins:wght@400;700&display=swap"
         rel="stylesheet">
-
     <link rel="stylesheet" href="index.css">
 </head>
 
-<body background="background.jpeg">
+<body style="background-image: url('background.jpeg');">
     <header>
         <img src="logo.jpeg" alt="RecipeBot">
         <a href="/"><span>Recipe</span>Bot</a>
     </header>
     <main>
-        <!--The Setup-->
+        <!-- The Setup -->
         <section id="setup-container">
             <div class="setup-inner">
                 <img src="chef.png" width="200px">
                 <div class="speech-bubble-ai" id="speech-bubble-ai">
-                    <p id="recipe-bot-text" width="300px">Give me a few ingredients and I'll give you a delicious recipe, a detailed
+                    <p id="recipe-bot-text">Give me a few ingredients and I'll give you a delicious recipe, a detailed
                         cooking guide, and a mouth-watering food photo...</p>
                 </div>
             </div>
@@ -35,14 +34,13 @@
                 </button>
             </div>
         </section>
-        <!--The Output-->
+        <!-- The Output -->
         <section class="output-container" id="output-container">
             <button class="home-btn" id="home-btn">Home</button>
             <div id="output-img-container" class="output-img-container"></div>
             <h1 id="output-title"></h1>
             <h2 id="output-ingredients"></h2>
             <p id="output-text"></p>
-            
         </section>
     </main>
     <footer>
