@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>Recipe Bot</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link href="preconnect" href="https://fonts.googleapis.com">
+    <link href="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Playfair+Display+SC:wght@700&family-Poppins:wght@490;700&display=swap"
+        rel="stylesheet">
+
+    <link rel="stylesheet" href="index.css">
+</head>
+
+<body background="background.jpeg">
+    <header>
+        <img src="logo.jpeg" alt="RecipeBot">
+        <a href="/"><span>Recipe</span>Bot</a>
+    </header>
+    <main>
+        <!--The Setup-->
+        <section id="setup-container">
+            <div class="setup-inner">
+                <img src="chef.png" width="200px">
+                <div class="speech-bubble-ai" id="speech-bubble-ai">
+                    <p id="recipe-bot-text" width="300px">Give me a few ingredients and I'll give you a delicious recipe, a detailed
+                        cooking guide, and a mouth-watering food photo...</p>
+                </div>
+            </div>
+            <div class="setup-inner setup-container" id="setup-input-container">
+                <textarea id="setup-textarea" placeholder="Enter ingredients like 'chicken, garlic, lemon'..."></textarea>
+                <button class="send-btn" id="send-btn" aria-label="send">
+                    <img src="send.jpeg" width="25px" alt="send">
+                </button>
+            </div>
+        </section>
+        <!--The Output-->
+        <section class="output-container" id="output-container">
+            <button class="home-btn" id="home-btn">Home</button>
+            <div id="output-img-container" class="output-img-container"></div>
+            <h1 id="output-title"></h1>
+            <h2 id="output-ingredients"></h2>
+            <p id="output-text"></p>
+            
+        </section>
+    </main>
+    <footer>
+        &copy; 2024 RecipeBot All rights reserved
+    </footer>
+    <script type="module" src="index.js"></script>
+</body>
+
+</html>
