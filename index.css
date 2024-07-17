@@ -170,3 +170,17 @@ footer {
     width: 100%;
     bottom: 0;
 }
+
+.output-img-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin-top: 20px;
+  }
+  
+  .recipe-image {
+    max-width: 100%;
+    height: auto;
+    border-radius: 8px;
+  }
+  

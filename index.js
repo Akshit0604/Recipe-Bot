@@ -31,14 +31,17 @@ fetch('config.json')
           'prompt': `Give me a recipe with the following ingredients: ${prompt}`,
           'max_tokens': 1000
         })
-      }).then(response => response.json()).then(data => {
+      })
+      .then(response => response.json())
+      .then(data => {
         const recipeText = data.choices[0].text.trim();
         recipeBotText.innerText = recipeText;
         setupInputContainer.innerHTML = ''; // Clear loading image after response
 
         // Call function to generate image using DALL-E 2 API
-        generateRecipeImage('a white siamese cat', apiKey); // Using 'a white siamese cat' as example prompt
-      }).catch(error => {
+        generateRecipeImage(recipeText, apiKey);
+      })
+      .catch(error => {
         console.error('Error:', error);
         recipeBotText.innerText = 'Oops! Something went wrong.';
         setupInputContainer.innerHTML = ''; // Clear loading image in case of error
@@ -46,23 +49,44 @@ fetch('config.json')
     }
 
     // Function to generate recipe image using DALL-E 2 API
-    async function generateRecipeImage(prompt, apiKey) {
-      try {
-        const response = await openai.images.generate({
-          model: "dall-e-2",
-          prompt: prompt,
-          n: 1,
-          size: "1024x1024",
-          headers: {
-            'Authorization': `Bearer ${apiKey}`
-          }
-        });
-        const imageUrl = response.data[0].url;
+    function generateRecipeImage(prompt, apiKey) {
+      fetch('https://api.openai.com/v1/images/generations', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+          'Authorization': `Bearer ${apiKey}`
+        },
+        body: JSON.stringify({
+          'prompt': prompt,
+          'n': 1,
+          'size': '1024x1024'
+        })
+      })
+      .then(response => {
+        if (!response.ok) {
+          throw new Error('Network response was not ok');
+        }
+        return response.json();
+      })
+      .then(data => {
+        console.log('Image Generation Response:', data); // Debugging log
+
+        if (data.error) {
+          throw new Error(data.error.message || 'Unknown API error');
+        }
+
+        if (!data.data || !data.data.length) {
+          throw new Error('No image data returned from API');
+        }
+
+        const imageUrl = data.data[0].url;
+        console.log('Generated Image URL:', imageUrl); // Debugging log
         displayRecipeImage(imageUrl);
-      } catch (error) {
-        console.error('Error:', error);
+      })
+      .catch(error => {
+        console.error('Error generating recipe image:', error);
         outputImgContainer.innerHTML = 'Failed to generate recipe image.';
-      }
+      });
     }
 
     // Function to display recipe image
