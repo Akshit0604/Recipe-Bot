@@ -8,7 +8,7 @@ const outputImgContainer = document.getElementById('output-img-container');
 fetch('config.json')
   .then(response => response.json())
   .then(config => {
-    const { openaiApiKey, dalleUrl } = config;
+    const { openaiApiKey } = config;
 
     document.getElementById("send-btn").addEventListener("click", () => {
       if (setupTextarea.value) {
@@ -37,7 +37,7 @@ fetch('config.json')
         setupInputContainer.innerHTML = ''; // Clear loading image after response
 
         // Call function to generate image using DALL-E 2 API
-        generateRecipeImage(recipeText, dalleUrl);
+        generateRecipeImage('a white siamese cat', apiKey); // Using 'a white siamese cat' as example prompt
       }).catch(error => {
         console.error('Error:', error);
         recipeBotText.innerText = 'Oops! Something went wrong.';
@@ -46,25 +46,23 @@ fetch('config.json')
     }
 
     // Function to generate recipe image using DALL-E 2 API
-    function generateRecipeImage(recipeText, dalleUrl) {
-      fetch(dalleUrl, {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-          // Add any required headers for your DALL-E 2 API authentication
-        },
-        body: JSON.stringify({
-          'text': recipeText,
-          'model': 'dall-e-2',
-          'max_tokens': 50
-        })
-      }).then(response => response.json()).then(data => {
-        const imageUrl = data.image_url; // Assuming your API returns image URL
+    async function generateRecipeImage(prompt, apiKey) {
+      try {
+        const response = await openai.images.generate({
+          model: "dall-e-2",
+          prompt: prompt,
+          n: 1,
+          size: "1024x1024",
+          headers: {
+            'Authorization': `Bearer ${apiKey}`
+          }
+        });
+        const imageUrl = response.data[0].url;
         displayRecipeImage(imageUrl);
-      }).catch(error => {
+      } catch (error) {
         console.error('Error:', error);
         outputImgContainer.innerHTML = 'Failed to generate recipe image.';
-      });
+      }
     }
 
     // Function to display recipe image
