@@ -102,6 +102,35 @@ async function fetchTitle(synopsis) {
   }
 }
 
+async function fetchStars(synopsis) {
+  try {
+    const response = await fetchAPI(url, {
+      method: 'POST',
+      headers: {
+        "Content-Type": "application/json",
+        "Authorization": "Bearer " + OPENAI_API_KEY1
+      },
+      body: JSON.stringify({
+        'model': 'gpt-3.5-turbo-instruct',
+        'prompt': `
+          which region did this dish originate in?
+          ###
+          recipe: ${synopsis}  
+        `,
+        'max_tokens': 100
+      })
+    });
+
+    const data = await response.json();
+    const extractedText = data.choices[0].text.trim();
+    //const ingredients = extractedText.replace('ingredients:', '').trim();
+    //document.getElementById('output-stars').innerText = `Key Ingredients: ${ingredients}`;
+    document.getElementById('output-stars').innerText = `Origin: ${extractedText}`;
+  } catch (error) {
+    console.error("Error:", error);
+  }
+}
+
 async function fetchImagePrompt(title, synopsis) {
   try {
     const response = await fetchAPI(url, {
@@ -151,7 +180,7 @@ async function fetchImageUrl(imagePrompt){
     document.getElementById('view-pitch-btn').addEventListener('click', ()=>{
     document.getElementById('setup-container').style.display = 'none'
     document.getElementById('output-container').style.display = 'flex'
-      .innerText = `This recipe is so good, it's making me hungry! You have a talent for cooking. Bon appétit! 🍽️`
+    //document.getElementById('output-container') = `This recipe is so good, it's making me hungry! You have a talent for cooking. Bon appétit! 🍽️`
   })
   })
 }
